@@ -1,6 +1,7 @@
 package com.sparta.myvoyageblogreview.post.entity;
 
 import com.sparta.myvoyageblogreview.common.entity.Timestamped;
+import com.sparta.myvoyageblogreview.post.dto.PostRequestDto;
 import com.sparta.myvoyageblogreview.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,4 +27,10 @@ public class Post extends Timestamped {
 
 	@Column(name = "content", nullable = false)
 	private String content;
+
+	public Post(PostRequestDto requestDto, User user) {
+		this.title = requestDto.getTitle();
+		this.content = requestDto.getContent();
+		this.user = user;
+	}
 }
