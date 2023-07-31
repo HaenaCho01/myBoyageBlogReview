@@ -28,8 +28,21 @@ public class PostService {
 		return new PostsListResponseDto(postsList);
 	}
 
+	// 게시글 작성
 	public PostResponseDto createPost(PostRequestDto requestDto, User user) {
 		Post post = new Post(requestDto, user);
 		return new PostResponseDto(postRepository.save(post));
+	}
+
+	// 게시글 조회
+	public PostResponseDto getPostById(Long postId) {
+		return new PostResponseDto(findPost(postId));
+	}
+
+	// 게시글 id로 게시글 찾기
+	public Post findPost(Long postId) {
+		return postRepository.findById(postId).orElseThrow(() ->
+				new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
+		);
 	}
 }

@@ -20,7 +20,7 @@ public class PostController {
 
 	// 전체 게시글 목록 조회
 	@GetMapping("/posts")
-	public ResponseEntity<PostsListResponseDto> getPost() {
+	public ResponseEntity<PostsListResponseDto> getPosts() {
 		return ResponseEntity.ok().body(postService.getPosts());
 	}
 
@@ -28,5 +28,11 @@ public class PostController {
 	@PostMapping("/posts")
 	public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 		return ResponseEntity.ok().body(postService.createPost(requestDto, userDetails.getUser()));
+	}
+
+	// 게시글 조회
+	@GetMapping("/posts/{postId}")
+	public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long postId) {
+		return ResponseEntity.ok().body(postService.getPostById(postId));
 	}
 }
