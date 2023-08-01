@@ -29,14 +29,27 @@ public class PostService {
 	}
 
 	// 게시글 작성
+	@Transactional
 	public PostResponseDto createPost(PostRequestDto requestDto, User user) {
 		Post post = new Post(requestDto, user);
 		return new PostResponseDto(postRepository.save(post));
 	}
 
 	// 게시글 조회
+	@Transactional(readOnly = true)
 	public PostResponseDto getPostById(Long postId) {
 		return new PostResponseDto(findPost(postId));
+	}
+
+	// 게시글 수정
+	@Transactional
+	public PostResponseDto updatePost(Long postId, PostRequestDto requestDto, User user) {
+		Post post = findPost(postId);
+		if (!post.getUser().getId().equals(user.getId())) {
+			throw new IllegalArgumentException("작성자만 수정할 수 있습니다.");
+		}
+		post.update(requestDto);
+		return new PostResponseDto(post);
 	}
 
 	// 게시글 id로 게시글 찾기

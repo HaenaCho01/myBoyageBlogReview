@@ -35,4 +35,10 @@ public class PostController {
 	public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long postId) {
 		return ResponseEntity.ok().body(postService.getPostById(postId));
 	}
+
+	// 게시글 수정
+	@PutMapping("/posts/{postId}")
+	public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+		return ResponseEntity.ok().body(postService.updatePost(postId, requestDto, userDetails.getUser()));
+	}
 }
