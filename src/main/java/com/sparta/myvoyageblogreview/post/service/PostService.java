@@ -52,6 +52,15 @@ public class PostService {
 		return new PostResponseDto(post);
 	}
 
+	// 게시글 삭제
+	public void deletePost(Long postId, User user) {
+		Post post = findPost(postId);
+		if (!post.getUser().getId().equals(user.getId())) {
+			throw new IllegalArgumentException("작성자만 삭제할 수 있습니다.");
+		}
+		postRepository.delete(post);
+	}
+
 	// 게시글 id로 게시글 찾기
 	public Post findPost(Long postId) {
 		return postRepository.findById(postId).orElseThrow(() ->
