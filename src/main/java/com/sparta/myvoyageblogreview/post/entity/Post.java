@@ -2,11 +2,14 @@ package com.sparta.myvoyageblogreview.post.entity;
 
 import com.sparta.myvoyageblogreview.common.entity.Timestamped;
 import com.sparta.myvoyageblogreview.post.dto.PostRequestDto;
+import com.sparta.myvoyageblogreview.post.postComment.entity.PostComment;
 import com.sparta.myvoyageblogreview.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +30,9 @@ public class Post extends Timestamped {
 
 	@Column(name = "content", nullable = false)
 	private String content;
+
+	@OneToMany(mappedBy = "post", orphanRemoval = true)
+	private List<PostComment> comments;
 
 	public Post(PostRequestDto requestDto, User user) {
 		this.title = requestDto.getTitle();
